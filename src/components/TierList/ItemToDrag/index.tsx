@@ -10,6 +10,7 @@ interface IProps extends ITierItem {
 }
 
 const ItemToDrag: React.FC<IProps> = ({
+  id,
   image,
   name,
   index,
@@ -34,10 +35,11 @@ const ItemToDrag: React.FC<IProps> = ({
 
   const [{ isDragging }, drag] = useDrag({
     type: type,
-    item: { index, name, type, indexList },
+    item: () => ({ index, name, type, indexList, id }),
     collect: monitor => ({
       isDragging: monitor.isDragging()
-    })
+    }),
+    isDragging: monitor => monitor.getItem<{ id: string }>()?.id === id
   })
 
   useEffect(() => {
@@ -45,7 +47,19 @@ const ItemToDrag: React.FC<IProps> = ({
 
     setTooltipItem(false)
     if (intervalRef.current) clearInterval(intervalRef.current)
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
   }, [isDragging])
+
+  // clear interval when unmount
+  useEffect(
+    () => () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    },
+    []
+  )
 
   return (
     <ItemToDragWrapper

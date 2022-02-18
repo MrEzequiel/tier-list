@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 interface IItemPropsStyles {
   isDragging: boolean
@@ -10,9 +10,13 @@ export const ItemToDragWrapper = styled.div<IItemPropsStyles>`
   border-radius: 4px;
   transition: opacity 250ms ease, filter 250ms ease;
 
-  opacity: ${({ isDragging }) => (isDragging ? '0.35' : '1')};
-  filter: ${({ isDragging }) => (isDragging ? 'grayscale(100%)' : 'none')};
-  cursor: ${({ isDragging }) => (isDragging ? 'grabbing' : 'grab')};
+  ${({ isDragging }) =>
+    isDragging &&
+    css`
+      opacity: 0.5;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+    `}
 `
 
 export const ItemToDragImage = styled.div`

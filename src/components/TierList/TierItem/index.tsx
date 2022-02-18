@@ -25,7 +25,8 @@ const TierItem: React.FC<IProps> = ({ color, id, items, name, index }) => {
       handlerId: monitor.getHandlerId(),
       didDrop: monitor.isOver()
     }),
-    hover(item: IItemToDrag, monitor) {
+
+    drop: item => {
       if (item.type === 'WITHOUT_ITEM') {
         dispatch({
           type: Types.Move_Without_Tier,
@@ -37,23 +38,24 @@ const TierItem: React.FC<IProps> = ({ color, id, items, name, index }) => {
         item.indexList = index
         return
       }
+    },
 
-      if (item.type === 'ITEM_IN_TIER' && item.indexList !== null) {
-        if (item.indexList === index) return
-        console.log('item.indexList', index)
+    hover(item: IItemToDrag) {
+      if (item.type !== 'ITEM_IN_TIER' || item.indexList === null) return
+      if (item.indexList === index) return
 
-        dispatch({
-          type: Types.Move_Item_In_Tier,
-          payload: {
-            indexFrom: item.index,
-            indexFromList: item.indexList,
-            indexTo: index
-          }
-        })
+      dispatch({
+        type: Types.Move_Item_In_Tier,
+        payload: {
+          indexFrom: item.index,
+          indexFromList: item.indexList,
+          indexTo: index
+        }
+      })
 
-        item.indexList = index
-        return
-      }
+      item.indexList = index
+      item.index = items.length
+      return
     }
   })
 

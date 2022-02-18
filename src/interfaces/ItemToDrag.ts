@@ -1,4 +1,5 @@
 interface IItemToDrag {
+  id: string
   index: number
   indexList: number | null
   name: string

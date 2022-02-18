@@ -28,6 +28,18 @@ const TodoListReducer = (tierData: ITierList, action: TierListActions) => {
       })
     }
 
+    case Types.Move_To_Without_Tier: {
+      const { indexFrom, indexFromList } = action.payload
+
+      return produce(tierData, draft => {
+        const removed = draft.tiers[indexFromList].items[indexFrom]
+        draft.tiers[indexFromList].items = draft.tiers[
+          indexFromList
+        ].items.filter(itemTier => !Object.is(removed, itemTier))
+        draft.withoutTiers.push(removed)
+      })
+    }
+
     default: {
       return tierData
     }

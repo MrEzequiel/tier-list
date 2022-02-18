@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Container from '../../styles/Layout/Container'
 
 export const ContainerTierList = styled(Container)`
@@ -25,7 +25,7 @@ export const TierListWrapper = styled.ul`
   border-width: 0 0 2px 2px;
 `
 
-export const WrapperItemsToDrag = styled.div`
+export const WrapperItemsToDrag = styled.div<{ didDrop: boolean }>`
   border: 1px solid #2e2e2e;
   background: transparent;
   display: flex;
@@ -33,4 +33,13 @@ export const WrapperItemsToDrag = styled.div`
   gap: 10px;
   padding: 8px;
   border-radius: 4px;
+  min-height: 78px;
+
+  transition: background 200ms ease;
+
+  ${({ didDrop }) =>
+    didDrop &&
+    css`
+      background: #2e2e2e;
+    `}
 `

@@ -12,7 +12,8 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 export enum Types {
   Move_Without_Tier = 'MOVE_WITHOUT_TIER',
-  Move_Item_In_Tier = 'MOVE_ITEM_IN_TIER'
+  Move_Item_In_Tier = 'MOVE_ITEM_IN_TIER',
+  Move_To_Without_Tier = 'MOVE_TO_WITHOUT_TIER'
 }
 
 type TierListPayload = {
@@ -24,6 +25,10 @@ type TierListPayload = {
     indexFrom: number
     indexFromList: number
     indexTo: number
+  }
+  [Types.Move_To_Without_Tier]: {
+    indexFrom: number
+    indexFromList: number
   }
 }
 
