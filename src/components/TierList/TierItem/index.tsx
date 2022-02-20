@@ -34,7 +34,7 @@ const TierItem: React.FC<IProps> = ({ color, id, items, name, index }) => {
         })
 
         item.type = 'ITEM_IN_TIER'
-        item.index = items.length - 1
+        item.index = items.length
         item.indexList = index
         return
       }

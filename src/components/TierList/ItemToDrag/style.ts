@@ -54,6 +54,8 @@ export const TooltipItem = styled.div`
   font-size: 1.4rem;
   color: #dedede;
 
+  border: 1px solid #0e0e0e;
+
   &::after {
     content: '';
     display: block;

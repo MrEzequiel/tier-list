@@ -34,6 +34,7 @@ export const WrapperItemsToDrag = styled.div<{ didDrop: boolean }>`
   padding: 8px;
   border-radius: 4px;
   min-height: 78px;
+  margin-bottom: 30px;
 
   transition: background 200ms ease;
 

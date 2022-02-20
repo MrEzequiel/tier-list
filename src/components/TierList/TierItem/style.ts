@@ -4,7 +4,7 @@ import colorContrast from '../../../utils/colorContrast'
 export const TierItemWrapper = styled.li`
   display: grid;
   grid-template-columns: 70px 1fr 60px;
-  height: 70px;
+  min-height: 70px;
 
   border: 0 solid #404040;
   border-width: 2px 2px 0 0;

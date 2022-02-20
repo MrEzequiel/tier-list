@@ -17,7 +17,12 @@ const TierListProvider: FC = ({ children }) => {
   const [tierListData, dispatch] = useReducer(TierListReducer, inititalState)
 
   return (
-    <TierListContext.Provider value={{ tierListData, dispatch }}>
+    <TierListContext.Provider
+      value={{
+        tierListData,
+        dispatch
+      }}
+    >
       {children}
     </TierListContext.Provider>
   )
