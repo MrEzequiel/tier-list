@@ -44,6 +44,30 @@ const TodoListReducer = (tierData: ITierList, action: TierListActions) => {
       })
     }
 
+    case Types.Move_TierItem_To_InitialTier: {
+      const { indexFrom, indexFromList, indexTo, indexToList } = action.payload
+
+      return produce(tierData, draft => {
+        let removed: ITierItem
+
+        if (indexFromList === null) removed = draft.withoutTiers[indexFrom]
+        else removed = draft.tiers[indexFromList].items[indexFrom]
+
+        if (indexToList === null)
+          draft.withoutTiers.filter(itemTier => !Object.is(removed, itemTier))
+        else
+          draft.tiers[indexToList].items.filter(
+            itemTier => !Object.is(removed, itemTier)
+          )
+
+        if (indexToList !== null && indexFromList !== null) {
+          draft.tiers[indexToList].items.splice(indexTo, 0, removed)
+        } else {
+          draft.withoutTiers.splice(indexTo, 0, removed)
+        }
+      })
+    }
+
     case Types.Move_TierItem_To_OtherTier: {
       const { indexFrom, indexFromList, indexTo, indexToList } = action.payload
 

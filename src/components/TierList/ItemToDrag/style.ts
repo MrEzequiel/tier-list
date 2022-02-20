@@ -69,16 +69,25 @@ export const TooltipItem = styled.div`
     bottom: -10px;
   }
 
-  @keyframes animateTooltip {
-    from {
-      opacity: 0;
-      transform: translate(-50%, 10px);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
+  &.tooltip-enter {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  &.tooltip-enter-active {
+    opacity: initial;
+    transform: translate(-50%, 0);
+    transition: opacity 350ms, transform 350ms;
+    transition-timing-function: ease;
   }
 
-  animation: animateTooltip 0.3s ease forwards;
+  // exit animation
+  &.tooltip-exit {
+    opacity: 1;
+  }
+  &.tooltip-exit-active {
+    opacity: 0;
+    transform: translate(-50%, 5px);
+    transition: opacity 350ms, transform 350ms;
+    transition-timing-function: ease-in-out;
+  }
 `

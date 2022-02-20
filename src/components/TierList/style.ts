@@ -5,8 +5,8 @@ export const ContainerTierList = styled(Container)`
   margin-top: 32px;
 
   h1 {
-    font-size: 2.4rem;
-    font-weight: 500;
+    font-size: 2.8rem;
+    font-weight: 700;
   }
 
   hr {

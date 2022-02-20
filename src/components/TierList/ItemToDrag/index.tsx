@@ -3,10 +3,11 @@ import { useDrag, useDrop, XYCoord } from 'react-dnd'
 import IItemToDrag from '../../../interfaces/ItemToDrag'
 import ITierItem from '../../../interfaces/TierItem'
 import type { Identifier } from 'dnd-core'
+import { Types } from '../../../interfaces/TypesReducer'
+import useTierList from '../../../hooks/useTierList'
+import { CSSTransition } from 'react-transition-group'
 
 import { ItemToDragImage, ItemToDragWrapper, TooltipItem } from './style'
-import useTierList from '../../../hooks/useTierList'
-import { Types } from '../../../interfaces/TypesReducer'
 
 interface IProps extends ITierItem {
   index: number
@@ -26,6 +27,7 @@ const ItemToDrag: React.FC<IProps> = ({
   const initialIndexList = indexList
 
   const dropRef = useRef<HTMLDivElement | null>(null)
+  const tooltipRef = useRef<HTMLDivElement | null>(null)
   const intervalRef = useRef<NodeJS.Timer>()
   const [tooltipItem, setTooltipItem] = useState(false)
   const { dispatch } = useTierList()
@@ -60,13 +62,23 @@ const ItemToDrag: React.FC<IProps> = ({
       monitorDrag: monitor.getItem(),
       isDragging: monitor.isDragging()
     }),
-    isDragging: monitor => monitor.getItem<{ id: string }>()?.id === id
-    // end: (item, monitor) => {
-    //   const didDrop = monitor.didDrop()
-    //   if (!didDrop) {
-    //     // move to initial position
-    //   }
-    // }
+    isDragging: monitor => monitor.getItem<{ id: string }>()?.id === id,
+
+    end: (item, monitor) => {
+      const didDrop = monitor.didDrop()
+      if (!didDrop) {
+        // move to initial position
+        dispatch({
+          type: Types.Move_TierItem_To_OtherTier,
+          payload: {
+            indexFrom: item.index,
+            indexFromList: item.indexList,
+            indexTo: item.initial.index,
+            indexToList: item.initial.indexList
+          }
+        })
+      }
+    }
   })
 
   const [{ handlerId }, drop] = useDrop<
@@ -145,9 +157,15 @@ const ItemToDrag: React.FC<IProps> = ({
         <img src={image} alt={name} />
       </ItemToDragImage>
 
-      {tooltipItem && !isDragging && !monitorDrag && (
-        <TooltipItem>{name}</TooltipItem>
-      )}
+      <CSSTransition
+        in={tooltipItem && !isDragging && !monitorDrag}
+        classNames="tooltip"
+        unmountOnExit
+        nodeRef={tooltipRef}
+        timeout={350}
+      >
+        <TooltipItem ref={tooltipRef}>{name}</TooltipItem>
+      </CSSTransition>
     </ItemToDragWrapper>
   )
 }

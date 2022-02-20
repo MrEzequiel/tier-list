@@ -17,7 +17,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font: 400 1.6rem 'Roboto', sans-serif;
+    font: 400 1.6rem 'Open Sans', sans-serif;
     background: #1A1A1A;
     color: #EDEDED;
   }
